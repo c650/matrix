@@ -53,10 +53,8 @@ class Matrix {
 		@return a new instance of Matrix
 	*/
   	Matrix (const int& rows, const int& cols) {
-  		for (int i = 0; i < rows; i++) {
-  			vector<T> tmp(cols);
-  			elements.push_back(tmp);
-  		}
+  		vector< vector<T> > _elem(rows,vector<T>(cols));
+  		elements = _elem;
   	}
 
 /*
