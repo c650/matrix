@@ -94,7 +94,7 @@ public:
     */
     std::vector<T> operator[](const int &rhs) {
         if (abs(rhs) > num_rows()) {
-            throw "operator[] in Matrix out of bounds";
+            throw std::invalid_argument("operator[] in Matrix out of bounds");
         }
 
         if (rhs >= 0) {
@@ -153,7 +153,7 @@ public:
         // Matrices must be same dimensions to
         // be addable
         if (this->num_rows() != other.num_rows() || this->num_cols() != other.num_cols())
-            return *this;
+            throw std::invalid_argument("these Matrices cannot be added/subtracted");
 
         // make matrix based on `this`
         Matrix<T> resultant(*this);
@@ -199,7 +199,7 @@ public:
         Matrix<T> resultant(this->num_rows(), other.num_cols());
 
         if (this->num_cols() != other.num_rows())
-            return *this;
+            throw std::invalid_argument("these Matrices cannot be multiplied");
 
         // go through all rows of the left Matrix
         for (int i = 0, n = this->num_rows(); i < n; i++) {
