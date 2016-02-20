@@ -19,7 +19,7 @@
 /*
     Begin the Matrix class:
 */
-template <class T> class Matrix {
+template <typename T> class Matrix {
     /*
         `elements` is a 2D array that is
          a vector of the rows of the matrix.
