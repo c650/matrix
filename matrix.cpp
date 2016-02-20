@@ -62,6 +62,11 @@ public:
     }
 
     /*
+        REMEMBER THE DESTRUCTOR
+    */
+    ~Matrix();
+
+    /*
         Column and Row Size Getters:
     */
     /*
