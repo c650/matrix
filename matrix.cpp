@@ -38,7 +38,7 @@ public:
 
         @return a new instance of Matrix
     */
-    Matrix(std::vector< std::vector<T> > elem) : elements(elem) {}
+    Matrix(std::vector< std::vector<T> >&& elem) : elements(elem) {}
     /*
         Makes a new instance of Matrix
 
@@ -47,7 +47,11 @@ public:
 
         @return a new instance of Matrix
     */
-    Matrix(Matrix &m) : elements(m.elements) {}
+    Matrix(Matrix& m) : elements(m.elements) {}
+    /*
+        New instance of Matrix from old Matrix, move
+    */
+    Matrix(Matrix&& m) : elements(m.elements) {}
     /*
         Makes a new, empty instance of Matrix
 
@@ -60,7 +64,29 @@ public:
         std::vector< std::vector<T> > _elem(rows, std::vector<T>(cols));
         elements = _elem;
     }
+    /*
+        ASSIGNMENT (=) OPERATOR
+        COPY
 
+        @param other a matrix to copy from
+        @return modified Matrix<T>
+    */
+    Matrix<T>& operator=(Matrix<T>& other) {
+
+        elements = other.elements;
+        return *this;
+    }
+    /*
+        ASSIGNMENT (=) OPERATOR
+        MOVE
+
+        @param other a matrix to move into
+        @return modified Matrix<T>
+    */
+    Matrix<T>& operator=(Matrix<T>&& other) {
+        std::swap(elements, other.elements);
+        return *this;
+    }
     /*
         REMEMBER THE DESTRUCTOR
     */
