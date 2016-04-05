@@ -61,21 +61,20 @@ public:
         @return a new instance of Matrix
     */
     Matrix(const int &rows, const int &cols) {
-        std::vector< std::vector<T> > _elem(rows, std::vector<T>(cols));
-        elements = _elem;
+        elements = std::vector<T>(rows, std::vector<T>(cols));
     }
-    /*
-        ASSIGNMENT (=) OPERATOR
-        COPY
+    
+    //     ASSIGNMENT (=) OPERATOR
+    //     COPY
 
-        @param other a matrix to copy from
-        @return modified Matrix<T>
-    */
-    Matrix<T>& operator=(Matrix<T>& other) {
+    //     @param other a matrix to copy from
+    //     @return modified Matrix<T>
+    
+    // Matrix<T>& operator=(Matrix<T>& other) {
 
-        elements = other.elements;
-        return *this;
-    }
+    //     elements = other.elements;
+    //     return *this;
+    // }
     /*
         ASSIGNMENT (=) OPERATOR
         MOVE
@@ -280,8 +279,8 @@ public:
     Matrix power(const unsigned int &p) {
         if (p == 1)
             return *this;
-        else if (p <= 0) // set for now to keep it safe
-            return *this;
+        else if (p <= 0) // use length error
+            throw std::length_error{};
 
         Matrix m(*this);
 
@@ -290,6 +289,7 @@ public:
 
         if (p % 2 == 1)
             m = m * (*this);
+
         return m;
     }
     /*
@@ -297,11 +297,13 @@ public:
         Formats the Matrix for STDOUT
     */
     std::ostream& operator<<(std::ostream& out) {
-        for (int i = 0, n = this.num_rows(); i < n; i++) {
+        for (const std::vector<T>& a : elements) {
+            
             out << "| ";
-            for (int j = 0, o = this.num_cols(); j < o; j++) {
-                out << this.elements[i][j] << " ";
-            }
+
+            for (const T& b : a)
+                out << b << " ";
+
             out << "|" << std::endl;
         }
 
