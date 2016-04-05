@@ -51,7 +51,7 @@ public:
     /*
         New instance of Matrix from old Matrix, move
     */
-    Matrix(Matrix&& m) : elements(m.elements) {}
+    Matrix(Matrix&& m) : elements(std::move(m.elements)) {}
     /*
         Makes a new, empty instance of Matrix
 
