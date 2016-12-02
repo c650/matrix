@@ -1,5 +1,5 @@
 #include <iostream>
-#include "./matrix.cpp"
+#include "./matrix.hpp"
 
 int main() {
 	Matrix<int> m1 (3,3), m2 (3,3);
