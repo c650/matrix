@@ -19,6 +19,8 @@
 #include <vector>
 #include <cstdlib>
 
+#include <queue>
+
 template <typename T> class Matrix;
 
 template <typename T>
@@ -140,6 +142,13 @@ class Matrix {
 
     Matrix<T> power(const unsigned int &p);
 
+	/*
+		Matrix Determinant
+
+
+	*/
+	T determinant(void);
+
     // I/O functions
     friend std::istream& operator>> <>(std::istream& in, Matrix<T>& matrix);
     friend std::ostream& operator<< <>(std::ostream& out, const Matrix<T>& matrix);
@@ -204,7 +213,7 @@ std::vector<T>& Matrix<T>::operator[](const int &rhs) {
     if (rhs >= 0) {
         return elements[rhs];
     } else {
-        return elements[num_rows() + rhs];
+		return elements[num_rows() + rhs];
     }
 
 }
@@ -303,6 +312,33 @@ Matrix<T> Matrix<T>::power(const unsigned int &p) {
         m = m * (*this);
 
     return m;
+}
+
+template <typename T>
+T Matrix<T>::determinant(void) {
+
+	if (this->num_cols() != this->num_rows())
+		throw std::logic_error("Finding the determinant of a matrix is undefined for non-square matrices.");
+
+	if (this->num_cols() == 1)
+		return elements[0][0];
+	else if (this->num_cols() == 2)
+		return elements[0][0]*elements[1][1] - elements[0][1]*elements[1][0];
+
+	T det = 0;
+	bool neg = false;
+	for (size_t i = 0; i < this->num_cols(); ++i, neg = !neg) {
+		Matrix m(this->num_rows()-1, this->num_cols()-1);
+
+		for (size_t bm_row = 1, sm_row = 0; bm_row < this->num_rows() && sm_row < m.num_rows(); ++bm_row, sm_row++) {
+			for (size_t bm_col = 0, sm_col = 0; bm_col < this->num_cols() && sm_col < m.num_cols(); ++bm_col) {
+				if (bm_col == i) continue;
+				m.elements[sm_row][sm_col++] = this->elements[bm_row][bm_col];
+			}
+		}
+		det += this->elements[0][i] * m.determinant() * (neg ? -1 : 1);
+	}
+	return det;
 }
 
 #endif // MATRIX_H
